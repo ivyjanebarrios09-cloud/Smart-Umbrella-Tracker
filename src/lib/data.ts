@@ -1,7 +1,7 @@
 export type CurrentWeather = {
   temperature: number;
   condition: string;
-  windSpeed: number;
+  windspeed: number;
 };
 
 export type ForecastDay = {

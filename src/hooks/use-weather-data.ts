@@ -45,7 +45,7 @@ export function useWeatherData() {
       return {
         condition: data.condition,
         temperature: data.temperature,
-        windSpeed: data.windspeed,
+        windspeed: data.windspeed,
       };
     }
     return null;
