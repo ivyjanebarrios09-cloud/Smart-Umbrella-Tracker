@@ -1,0 +1,81 @@
+'use client';
+
+import Link from 'next/link';
+import { Umbrella, LogOut, Loader2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAuth } from '@/components/auth/auth-provider';
+import { auth } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useState } from 'react';
+
+export function DashboardHeader() {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+    try {
+      await auth.signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('Sign out error', error);
+      setIsSigningOut(false);
+    }
+  };
+
+  return (
+    <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-50">
+      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+        >
+          <Umbrella className="h-6 w-6 text-primary transition-transform group-hover:rotate-12" />
+          <span className="font-bold">Smart Umbrella</span>
+        </Link>
+      </nav>
+      <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary" size="icon" className="rounded-full">
+              <Avatar>
+                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={userAvatar.description} data-ai-hint={userAvatar.imageHint} />}
+                <AvatarFallback>{user?.email?.[0].toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <span className="sr-only">Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut} disabled={isSigningOut}>
+              {isSigningOut ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Signing out...</span>
+                </>
+              ) : (
+                <>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </>
+              )}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
+  );
+}
