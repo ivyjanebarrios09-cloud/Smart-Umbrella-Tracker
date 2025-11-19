@@ -15,7 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/components/auth/auth-provider';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -23,7 +22,6 @@ export function DashboardHeader() {
   const { user } = useAuth();
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
 
   const handleSignOut = async () => {
     setIsSigningOut(true);
@@ -61,7 +59,6 @@ export function DashboardHeader() {
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
               <Avatar>
-                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={userAvatar.description} data-ai-hint={userAvatar.imageHint} />}
                 <AvatarFallback>{user?.email?.[0].toUpperCase()}</AvatarFallback>
               </Avatar>
               <span className="sr-only">Toggle user menu</span>
