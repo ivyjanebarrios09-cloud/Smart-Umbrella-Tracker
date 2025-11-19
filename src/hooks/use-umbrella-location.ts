@@ -1,14 +1,15 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemoFirebase } from '@/firebase';
 import { collection, query, limit, orderBy } from 'firebase/firestore';
 import { useCollection, useFirestore } from '@/firebase';
 import { format } from 'date-fns';
 import type { UmbrellaLocation } from '@/lib/data';
+import { useMemo } from 'react';
 
 export function useUmbrellaLocation() {
   const firestore = useFirestore();
 
-  const locationQuery = useMemo(() => {
+  const locationQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(collection(firestore, 'locations'), orderBy('timestamp', 'desc'), limit(1));
   }, [firestore]);

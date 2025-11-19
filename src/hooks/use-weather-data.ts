@@ -1,9 +1,9 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemoFirebase, useDoc, useFirestore, useUser } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { useDoc, useFirestore, useUser } from '@/firebase';
 import { format } from 'date-fns';
 import type { CurrentWeather, ForecastDay } from '@/lib/data';
+import { useMemo } from 'react';
 
 // Helper to safely parse JSON
 const safeJsonParse = (str: string) => {
@@ -28,7 +28,7 @@ export function useWeatherData() {
   const firestore = useFirestore();
   const { user } = useUser();
 
-  const weatherDocRef = useMemo(() => {
+  const weatherDocRef = useMemoFirebase(() => {
     if (!firestore || !user) return null;
     return doc(firestore, 'users', user.uid, 'weather', 'current');
   }, [firestore, user]);
