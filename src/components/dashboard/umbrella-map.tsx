@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useUmbrellaLocation } from '@/hooks/use-umbrella-location';
 import { Skeleton } from '@/components/ui/skeleton';
 import L from 'leaflet';
+import React from 'react';
 
 // Fix for default icon path issue with webpack
 const icon = L.icon({
@@ -19,7 +20,7 @@ const icon = L.icon({
 });
 
 
-export function UmbrellaMap() {
+export const UmbrellaMap = React.memo(function UmbrellaMap() {
   const { location, isLoading } = useUmbrellaLocation();
   
   if (isLoading) {
@@ -49,7 +50,7 @@ export function UmbrellaMap() {
         </CardHeader>
         <CardContent>
             <div className="h-[350px] rounded-md overflow-hidden">
-                <MapContainer center={[location.lat, location.lng]} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                <MapContainer key={`${location.lat}-${location.lng}`} center={[location.lat, location.lng]} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -64,4 +65,6 @@ export function UmbrellaMap() {
       </CardContent>
     </Card>
   );
-}
+});
+
+UmbrellaMap.displayName = 'UmbrellaMap';
