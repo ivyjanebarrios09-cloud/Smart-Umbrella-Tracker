@@ -1,9 +1,15 @@
 import { CurrentWeatherCard } from '@/components/dashboard/current-weather';
 import { Forecast } from '@/components/dashboard/forecast';
-import { UmbrellaMap } from '@/components/dashboard/umbrella-map';
 import { AlertSection } from '@/components/dashboard/alert-section';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import dynamic from 'next/dynamic';
+
+const UmbrellaMap = dynamic(() => import('@/components/dashboard/umbrella-map').then(mod => mod.UmbrellaMap), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[434px]" />
+});
+
 
 export default function DashboardPage() {
   return (
@@ -17,9 +23,7 @@ export default function DashboardPage() {
         </Suspense>
       </div>
       <div className="grid auto-rows-min gap-4 md:gap-8 lg:col-span-1 xl:col-span-2">
-         <Suspense fallback={<Skeleton className="h-[434px]" />}>
-            <UmbrellaMap />
-        </Suspense>
+         <UmbrellaMap />
       </div>
       <div className="xl:col-span-3">
         <Suspense fallback={<Skeleton className="h-[220px]" />}>

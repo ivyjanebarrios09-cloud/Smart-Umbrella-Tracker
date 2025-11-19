@@ -1,28 +1,26 @@
 'use client';
 
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useUmbrellaLocation } from '@/hooks/use-umbrella-location';
 import { Skeleton } from '@/components/ui/skeleton';
+import L from 'leaflet';
+
+// Fix for default icon path issue with webpack
+const icon = L.icon({
+    iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+    iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
 
 export function UmbrellaMap() {
   const { location, isLoading } = useUmbrellaLocation();
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-  if (!apiKey) {
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Umbrella Location</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="h-[350px] flex items-center justify-center bg-muted rounded-md">
-                    <p className="text-muted-foreground">Google Maps API Key not configured. Please add it to your .env file.</p>
-                </div>
-            </CardContent>
-        </Card>
-    )
-  }
   
   if (isLoading) {
       return <Skeleton className="h-[434px]" />;
@@ -51,18 +49,17 @@ export function UmbrellaMap() {
         </CardHeader>
         <CardContent>
             <div className="h-[350px] rounded-md overflow-hidden">
-                <APIProvider apiKey={apiKey}>
-                    <Map
-                        defaultCenter={{ lat: location.lat, lng: location.lng }}
-                        center={{ lat: location.lat, lng: location.lng }}
-                        defaultZoom={15}
-                        gestureHandling={'greedy'}
-                        disableDefaultUI={true}
-                        mapId="b1d740c31c6f889"
-                    >
-                        <Marker position={{ lat: location.lat, lng: location.lng }} />
-                    </Map>
-                </APIProvider>
+                <MapContainer center={[location.lat, location.lng]} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[location.lat, location.lng]} icon={icon}>
+                        <Popup>
+                            Your umbrella was last seen here.
+                        </Popup>
+                    </Marker>
+                </MapContainer>
             </div>
       </CardContent>
     </Card>
