@@ -17,7 +17,7 @@ export function UmbrellaMap() {
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] flex items-center justify-center bg-muted rounded-md">
-                    <p className="text-muted-foreground">Google Maps API Key not configured.</p>
+                    <p className="text-muted-foreground">Google Maps API Key not configured. Please add it to your .env file.</p>
                 </div>
             </CardContent>
         </Card>
@@ -55,7 +55,7 @@ export function UmbrellaMap() {
                     <Map
                         defaultCenter={{ lat: location.lat, lng: location.lng }}
                         center={{ lat: location.lat, lng: location.lng }}
-                        defaultZoom={13}
+                        defaultZoom={15}
                         gestureHandling={'greedy'}
                         disableDefaultUI={true}
                         mapId="b1d740c31c6f889"
