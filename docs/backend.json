@@ -165,22 +165,6 @@
         }
       },
       {
-        "path": "locations/{locationId}",
-        "definition": {
-          "entityName": "Location",
-          "schema": {
-            "$ref": "#/backend/entities/Location"
-          },
-          "description": "Stores location data for the umbrella.",
-          "params": [
-            {
-              "name": "locationId",
-              "description": "The unique identifier for the location."
-            }
-          ]
-        }
-      },
-      {
         "path": "alerts",
         "definition": {
           "entityName": "Alert",

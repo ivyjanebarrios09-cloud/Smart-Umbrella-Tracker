@@ -29,12 +29,6 @@ service cloud.firestore {
     match /users/{userId}/devices/{deviceId} {
       allow read, write: if isOwner(userId);
     }
-
-    // Location data is public to read for the dashboard map
-    match /locations/{locationId} {
-      allow read: if true;
-      allow write: if isAuthenticated(); // Or more specific rules for the device
-    }
     
     // Any authenticated user can create an alert.
     // Only the user who created an alert can read, update, or delete it.
