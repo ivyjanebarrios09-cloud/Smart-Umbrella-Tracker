@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { LogOut, Loader2, HardDrive, Settings } from 'lucide-react';
+import { LogOut, Loader2, Settings } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +17,6 @@ import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { useFirebase, useMemoFirebase } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import { doc } from 'firebase/firestore';
@@ -74,7 +73,6 @@ export function DashboardHeader() {
         </Link>
       </nav>
       <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <ThemeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
