@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useDoc, useFirebase, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import type { UmbrellaLocation } from '@/lib/data';
@@ -34,26 +34,16 @@ export function useUmbrellaLocation() {
 
     const { latitude, longitude } = weatherData;
 
-    if (
-      location &&
-      location.lat === latitude &&
-      location.lng === longitude &&
-      location.address !== 'Loading address...'
-    ) {
-      return;
-    }
-
-    // Set initial location with coords, address will be fetched next
-    const initialLocation: UmbrellaLocation = {
-      lat: latitude,
-      lng: longitude,
-      address: 'Loading address...',
-    };
-    setLocation(initialLocation);
-    setIsLoading(false); // We have coords, so main loading is done.
-
-    // Fetch address from Nominatim
+    // Fetch address from Nominatim only if coordinates have changed
     const fetchAddress = async () => {
+      // Set location with coords and loading state for address
+      setLocation({
+        lat: latitude,
+        lng: longitude,
+        address: 'Loading address...',
+      });
+      setIsLoading(false);
+
       try {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
@@ -61,23 +51,36 @@ export function useUmbrellaLocation() {
         const data = await response.json();
         if (data && data.display_name) {
           setLocation((prev) =>
-            prev ? { ...prev, address: data.display_name } : null
+            prev && prev.lat === latitude && prev.lng === longitude
+              ? { ...prev, address: data.display_name }
+              : prev
           );
         } else {
            setLocation((prev) =>
-            prev ? { ...prev, address: 'Address not found' } : null
+             prev && prev.lat === latitude && prev.lng === longitude
+              ? { ...prev, address: 'Address not found' }
+              : prev
           );
         }
       } catch (error) {
         console.error('Error fetching address:', error);
          setLocation((prev) =>
-            prev ? { ...prev, address: 'Could not fetch address' } : null
+            prev && prev.lat === latitude && prev.lng === longitude
+            ? { ...prev, address: 'Could not fetch address' }
+            : prev
           );
       }
     };
 
-    fetchAddress();
-  }, [weatherData, isDocLoading, location]);
+    // Only trigger if coordinates are different from current state
+    if (location?.lat !== latitude || location?.lng !== longitude) {
+        fetchAddress();
+    } else {
+        // if coordinates are same, just ensure loading is false
+        setIsLoading(false)
+    }
+  // The dependency array is changed to only react to raw data changes
+  }, [weatherData, isDocLoading]);
 
   return { location, isLoading };
 }
