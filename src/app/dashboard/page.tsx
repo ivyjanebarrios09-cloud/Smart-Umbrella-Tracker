@@ -7,38 +7,37 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmbeddedMap } from '@/components/dashboard/embedded-map';
 import { WindCard } from '@/components/dashboard/wind-card';
-import { cn } from '@/lib/utils';
-
-const cardContainerClasses = "aspect-square flex flex-col";
 
 export default function DashboardPage() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-        <div className={cardContainerClasses}>
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-                <CurrentWeatherCard />
-            </Suspense>
-        </div>
-        <div className={cardContainerClasses}>
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-                <WindCard />
-            </Suspense>
-        </div>
-        <div className={cardContainerClasses}>
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-                <AlertSection />
-            </Suspense>
-        </div>
-        <div className={cn(cardContainerClasses, "col-span-2 md:col-span-1 lg:col-span-2")}>
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-                <Forecast />
-            </Suspense>
-        </div>
-        <div className={cardContainerClasses}>
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-                <EmbeddedMap />
-            </Suspense>
-        </div>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Here's a quick overview of your smart umbrella's status.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+        <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+          <CurrentWeatherCard />
+        </Suspense>
+        <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+          <WindCard />
+        </Suspense>
+        <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+          <Forecast />
+        </Suspense>
+        <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+          <EmbeddedMap />
+        </Suspense>
+      </div>
+
+       <div className="grid grid-cols-1 gap-6">
+         <Suspense fallback={<Skeleton className="h-full w-full min-h-[150px]" />}>
+           <AlertSection />
+         </Suspense>
+       </div>
     </div>
   );
 }

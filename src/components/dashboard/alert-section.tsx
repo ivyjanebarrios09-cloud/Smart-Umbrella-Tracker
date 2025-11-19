@@ -11,13 +11,14 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useFirebase, useMemoFirebase } from '@/firebase';
 import { useCollection } from '@/firebase/firestore/use-collection';
-import { Bell, BellRing, Lightbulb, LightbulbOff, Loader2, Volume2, VolumeX } from 'lucide-react';
+import { BellRing, Loader2, Volume2, VolumeX, Lightbulb, LightbulbOff } from 'lucide-react';
 import { doc, setDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '../ui/skeleton';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { useDoc } from '@/firebase/firestore/use-doc';
 
 interface Device {
   id: string;
@@ -35,7 +36,6 @@ export function AlertSection() {
   
   const [isUpdating, setIsUpdating] = useState< 'buzzer' | 'light' | null >(null);
 
-  // Get the list of devices to find the first one
   const devicesQuery = useMemoFirebase(() => {
     if (!firestore || !user) return null;
     return collection(firestore, `users/${user.uid}/devices`);
@@ -44,27 +44,18 @@ export function AlertSection() {
   const { data: devices, isLoading: isLoadingDevices } = useCollection<Device>(devicesQuery);
   const firstDevice = devices?.[0];
 
-  // Reference to the specific alert controls document for the first device
   const alertControlsDocRef = useMemoFirebase(() => {
     if (!firestore || !user || !firstDevice) return null;
     return doc(firestore, `users/${user.uid}/devices/${firstDevice.id}/alerts`, 'controls');
   }, [firestore, user, firstDevice]);
   
-  // Use state to manage the local toggles
-  const [buzzerOn, setBuzzerOn] = useState(false);
-  const [lightOn, setLightOn] = useState(false);
-
-  useEffect(() => {
-    if (alertControlsDocRef) {
-      const unsub = () => {};
-      // To-Do: Replace with useDoc and handle live updates
-      // For now, this sets initial state.
-    }
-  }, [alertControlsDocRef]);
-
+  const { data: alertData, isLoading: isLoadingAlerts } = useDoc<AlertControls>(alertControlsDocRef);
+  
+  const buzzerOn = alertData?.buzzer ?? false;
+  const lightOn = alertData?.light ?? false;
 
   const handleToggle = async (type: 'buzzer' | 'light') => {
-    if (!alertControlsDocRef) {
+    if (!alertControlsDocRef || !firstDevice) {
       toast({
         variant: 'destructive',
         title: 'No Device Found',
@@ -78,14 +69,10 @@ export function AlertSection() {
     const newState = type === 'buzzer' ? !buzzerOn : !lightOn;
     const updateData = {
       [type]: newState,
-      deviceId: firstDevice?.id,
-      message: 'Controls updated',
+      deviceId: firstDevice.id,
+      message: 'Controls updated via dashboard',
       timestamp: serverTimestamp(),
     };
-
-    // Optimistically update UI
-    if (type === 'buzzer') setBuzzerOn(newState);
-    if (type === 'light') setLightOn(newState);
 
     setDoc(alertControlsDocRef, updateData, { merge: true })
       .then(() => {
@@ -95,10 +82,6 @@ export function AlertSection() {
         });
       })
       .catch((error) => {
-        // Revert optimistic update on failure
-        if (type === 'buzzer') setBuzzerOn(!newState);
-        if (type === 'light') setLightOn(!newState);
-
         const permissionError = new FirestorePermissionError({
             path: alertControlsDocRef.path,
             operation: 'update',
@@ -111,62 +94,55 @@ export function AlertSection() {
       });
   };
 
-  if (isLoadingDevices) {
-      return (
-          <Card className="flex-1">
-              <CardHeader>
-                  <CardTitle className="text-base">Alert System</CardTitle>
-                  <CardDescription className="text-xs">Buzzer and light</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-8 w-full" />
-              </CardContent>
-          </Card>
-      )
-  }
-  
-  if (!firstDevice) {
-       return (
-            <Card className="flex-1">
-                <CardHeader>
-                    <CardTitle className="text-base">Alert System</CardTitle>
-                    <CardDescription className="text-xs">Buzzer and light</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-muted-foreground">Add a device to enable alerts.</p>
-                </CardContent>
-            </Card>
-       )
-  }
+  const isLoading = isLoadingDevices || isLoadingAlerts;
 
   return (
     <Card className="flex-1 flex flex-col">
-      <CardHeader>
-        <CardTitle className="text-base">Alert System</CardTitle>
-        <CardDescription className="text-xs truncate">
-          For device: <strong>{firstDevice.name}</strong>
-        </CardDescription>
+       <CardHeader className="flex flex-row items-start gap-4">
+        <BellRing className="h-6 w-6 text-muted-foreground" />
+        <div>
+            <CardTitle className="text-base font-semibold">Alert System</CardTitle>
+            <CardDescription className="text-sm text-muted-foreground">
+                Activate buzzer or light on your device.
+            </CardDescription>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1 flex flex-col justify-center">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {buzzerOn ? <Volume2 className="h-5 w-5 text-primary" /> : <VolumeX className="h-5 w-5 text-muted-foreground" />}
-            <Label htmlFor="buzzer-switch" className="text-sm font-medium">
-              Buzzer
-            </Label>
-          </div>
-          {isUpdating === 'buzzer' ? <Loader2 className="h-5 w-5 animate-spin" /> : <Switch id="buzzer-switch" checked={buzzerOn} onCheckedChange={() => handleToggle('buzzer')} />}
-        </div>
-        <div className="flex items-center justify-between">
-           <div className="flex items-center space-x-2">
-             {lightOn ? <Lightbulb className="h-5 w-5 text-primary" /> : <LightbulbOff className="h-5 w-5 text-muted-foreground" />}
-            <Label htmlFor="light-switch" className="text-sm font-medium">
-              Light
-            </Label>
-          </div>
-          {isUpdating === 'light' ? <Loader2 className="h-5 w-5 animate-spin" /> : <Switch id="light-switch" checked={lightOn} onCheckedChange={() => handleToggle('light')} />}
-        </div>
+      <CardContent className="flex-1 flex items-center">
+        {isLoading ? (
+            <div className="w-full space-y-4">
+              <div className="flex items-center justify-between">
+                <Skeleton className="h-6 w-1/4" />
+                <Skeleton className="h-6 w-12" />
+              </div>
+              <div className="flex items-center justify-between">
+                <Skeleton className="h-6 w-1/4" />
+                <Skeleton className="h-6 w-12" />
+              </div>
+            </div>
+        ) : !firstDevice ? (
+            <p className="w-full text-center text-sm text-muted-foreground">Add a device in settings to enable alerts.</p>
+        ) : (
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="flex items-center space-x-3">
+                        {buzzerOn ? <Volume2 className="h-5 w-5 text-primary" /> : <VolumeX className="h-5 w-5 text-muted-foreground" />}
+                        <Label htmlFor="buzzer-switch" className="text-sm font-medium">
+                        Buzzer
+                        </Label>
+                    </div>
+                    {isUpdating === 'buzzer' ? <Loader2 className="h-5 w-5 animate-spin" /> : <Switch id="buzzer-switch" checked={buzzerOn} onCheckedChange={() => handleToggle('buzzer')} />}
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="flex items-center space-x-3">
+                        {lightOn ? <Lightbulb className="h-5 w-5 text-primary" /> : <LightbulbOff className="h-5 w-5 text-muted-foreground" />}
+                        <Label htmlFor="light-switch" className="text-sm font-medium">
+                        Light
+                        </Label>
+                    </div>
+                    {isUpdating === 'light' ? <Loader2 className="h-5 w-5 animate-spin" /> : <Switch id="light-switch" checked={lightOn} onCheckedChange={() => handleToggle('light')} />}
+                </div>
+            </div>
+        )}
       </CardContent>
     </Card>
   );

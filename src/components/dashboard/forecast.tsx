@@ -17,7 +17,7 @@ export function Forecast() {
   const { forecast, isLoading } = useWeatherData();
 
   if (isLoading) {
-    return <Skeleton className="h-full w-full" />;
+    return <Skeleton className="h-full w-full min-h-[250px]" />;
   }
 
   return (
@@ -31,14 +31,19 @@ export function Forecast() {
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-center text-center p-0">
+      <CardContent className="flex-1 flex flex-col justify-center p-0">
         {!forecast || forecast.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No forecast data available.</p>
+          <div className="flex h-full items-center justify-center">
+            <p className="text-sm text-muted-foreground">No forecast data available.</p>
+          </div>
         ) : (
           <ScrollArea className="h-full">
-             <div className="flex flex-col p-6 pt-0">
+            <div className="flex flex-col p-6 pt-0">
               {forecast.map((day, index) => (
-                <div key={index} className="flex items-center justify-between py-2 border-b last:border-b-0">
+                <div
+                  key={index}
+                  className="flex items-center justify-between py-3 border-b last:border-b-0"
+                >
                   <p className="text-sm font-medium w-12">{day.date}</p>
                   <div className="h-6 w-6 text-primary flex-shrink-0">
                     <WeatherIcon condition={day.condition} />
