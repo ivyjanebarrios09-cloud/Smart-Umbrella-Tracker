@@ -1,21 +1,29 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 
-export async function sendMissingAlert(userId: string) {
+export async function sendMissingAlert(userId: string, deviceId: string) {
   if (!userId) {
     return { error: 'User not authenticated.' };
   }
+  if (!deviceId) {
+    return { error: 'Device ID not provided.' };
+  }
 
   try {
-    await addDoc(collection(db, "alerts"), {
-      userId: userId,
+    // This now points to a specific document, 'controls', to be updated.
+    const alertRef = doc(db, `users/${userId}/devices/${deviceId}/alerts`, 'controls');
+    
+    await setDoc(alertRef, {
+      deviceId: deviceId,
+      buzzer: true, // Example action
+      light: true,  // Example action
+      message: "Umbrella marked as missing",
       timestamp: serverTimestamp(),
-      message: "Umbrella marked as missing"
-    });
+    }, { merge: true });
 
     revalidatePath('/dashboard');
     return { success: 'Alert sent successfully!' };

@@ -32,9 +32,8 @@ service cloud.firestore {
     
     // Any authenticated user can create an alert.
     // Only the user who created an alert can read, update, or delete it.
-    match /alerts/{alertId} {
-      allow read, update, delete: if isAuthenticated() && isOwner(resource.data.userId);
-      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
+    match /users/{userId}/devices/{deviceId}/alerts/{alertId} {
+      allow read, write: if isOwner(userId);
     }
   }
 }

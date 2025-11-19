@@ -59,11 +59,13 @@
       "type": "object",
       "description": "Represents an alert sent by a user.",
       "properties": {
-        "userId": { "type": "string" },
+        "deviceId": { "type": "string" },
+        "buzzer": { "type": "boolean" },
+        "light": { "type": "boolean" },
         "message": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "message", "timestamp"]
+      "required": ["deviceId", "message", "timestamp"]
     },
     "UserProfile": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -165,11 +167,25 @@
         }
       },
       {
-        "path": "alerts",
+        "path": "users/{userId}/devices/{deviceId}/alerts/{alertId}",
         "definition": {
           "entityName": "Alert",
           "schema": { "$ref": "#/backend/entities/Alert" },
-          "description": "Collection of all alerts sent by users."
+          "description": "Stores alert controls for a specific device.",
+           "params": [
+            {
+              "name": "userId",
+              "description": "The user's ID."
+            },
+            {
+              "name": "deviceId",
+              "description": "The identifier for the device."
+            },
+            {
+                "name": "alertId",
+                "description": "The identifier for the alert document, e.g., 'controls'."
+            }
+          ]
         }
       }
     ]
