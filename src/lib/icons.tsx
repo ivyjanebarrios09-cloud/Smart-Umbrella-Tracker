@@ -9,15 +9,15 @@ export const WeatherIcon: React.FC<WeatherIconProps> = ({ condition, ...props })
     switch (condition.toLowerCase()) {
         case 'sunny':
         case 'clear':
-            return <Sun {...props} />;
+            return <Sun {...props} color="#FDB813" />;
         case 'cloudy':
-            return <Cloudy {...props} />;
+            return <Cloudy {...props} color="#B0BEC5" />;
         case 'clouds':
-            return <Cloud {...props} />;
+            return <Cloud {...props} color="#B0BEC5" />;
         case 'rain':
         case 'drizzle':
         case 'showers':
-            return <CloudRain {...props} />;
+            return <CloudRain {...props} color="#4A90E2" />;
         case 'snow':
             return <CloudSnow {...props} />;
         case 'windy':
@@ -27,6 +27,6 @@ export const WeatherIcon: React.FC<WeatherIconProps> = ({ condition, ...props })
         case 'sunny with snow':
             return <SunSnow {...props} />;
         default:
-            return <Sun {...props} />;
+            return <Sun {...props} color="#FDB813" />;
     }
 };
