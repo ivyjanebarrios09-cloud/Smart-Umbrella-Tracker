@@ -33,13 +33,24 @@ export function useUmbrellaLocation() {
     }
 
     const { latitude, longitude } = weatherData;
+
+    if (
+      location &&
+      location.lat === latitude &&
+      location.lng === longitude &&
+      location.address !== 'Loading address...'
+    ) {
+      return;
+    }
+
+    // Set initial location with coords, address will be fetched next
     const initialLocation: UmbrellaLocation = {
       lat: latitude,
       lng: longitude,
       address: 'Loading address...',
     };
     setLocation(initialLocation);
-    setIsLoading(false);
+    setIsLoading(false); // We have coords, so main loading is done.
 
     // Fetch address from Nominatim
     const fetchAddress = async () => {
@@ -66,7 +77,7 @@ export function useUmbrellaLocation() {
     };
 
     fetchAddress();
-  }, [weatherData, isDocLoading]);
+  }, [weatherData, isDocLoading, location]);
 
   return { location, isLoading };
 }
