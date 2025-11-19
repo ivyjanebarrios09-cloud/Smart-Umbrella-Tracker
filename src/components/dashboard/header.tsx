@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Umbrella, LogOut, Loader2, HardDrive } from 'lucide-react';
+import { LogOut, Loader2, HardDrive } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,7 @@ import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export function DashboardHeader() {
   const { user } = useAuth();
@@ -42,7 +43,7 @@ export function DashboardHeader() {
           href="/dashboard"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Umbrella className="h-6 w-6 text-primary transition-transform group-hover:rotate-12" />
+          <Image src="/image/logoo.png" alt="Smart Umbrella Logo" width={24} height={24} className="h-6 w-6 transition-transform group-hover:rotate-12" />
           <span className="font-bold">Smart Umbrella</span>
         </Link>
         <Link
