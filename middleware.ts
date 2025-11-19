@@ -1,32 +1,32 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const protectedRoutes = ['/dashboard'];
-const authRoutes = ['/login', '/register'];
-
 export function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get('__session')?.value;
   const { pathname } = request.nextUrl;
 
-  // Redirect from root to dashboard if logged in, otherwise to login
-  if (pathname === '/') {
-    const url = sessionToken ? '/dashboard' : '/login';
-    return NextResponse.redirect(new URL(url, request.url));
+  const protectedRoutes = ['/dashboard'];
+  const authRoutes = ['/login', '/register'];
+
+  // If trying to access a protected route without a session, redirect to login
+  if (!sessionToken && protectedRoutes.some(path => pathname.startsWith(path))) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
   }
 
-  // If user is logged in
-  if (sessionToken) {
-    // and tries to access an auth route, redirect to dashboard
-    if (authRoutes.some(path => pathname.startsWith(path))) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-  } 
-  // If user is not logged in
-  else {
-    // and tries to access a protected route, redirect to login
-    if (protectedRoutes.some(path => pathname.startsWith(path))) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
+  // If there is a session, and trying to access an auth route, redirect to dashboard
+  if (sessionToken && authRoutes.some(path => pathname.startsWith(path))) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    return NextResponse.redirect(url);
+  }
+  
+  // If at the root path, decide where to redirect
+  if (pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = sessionToken ? '/dashboard' : '/login';
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();

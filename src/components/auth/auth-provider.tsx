@@ -20,19 +20,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       setLoading(false);
+      
+      const sessionCookie = Cookies.get('__session');
+
       if (user) {
         const token = await user.getIdToken();
-        Cookies.set('__session', token, { expires: 7 }); // Set cookie for middleware
+        if (sessionCookie !== token) {
+            Cookies.set('__session', token, { expires: 7 }); 
+        }
       } else {
-        Cookies.remove('__session');
+        if (sessionCookie) {
+            Cookies.remove('__session');
+        }
       }
     });
 
     return () => unsubscribe();
   }, []);
+  
+  if (loading) {
+      return null;
+  }
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading: loading }}>
       {children}
     </AuthContext.Provider>
   );
