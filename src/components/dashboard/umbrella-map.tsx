@@ -3,10 +3,9 @@
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { useUmbrellaLocation } from '@/hooks/use-umbrella-location';
-import { Skeleton } from '@/components/ui/skeleton';
 import L from 'leaflet';
 import React from 'react';
+import type { UmbrellaLocation } from '@/lib/data';
 
 // Fix for default icon path issue with webpack
 const icon = L.icon({
@@ -19,14 +18,13 @@ const icon = L.icon({
     shadowSize: [41, 41]
 });
 
+interface UmbrellaMapProps {
+    location: UmbrellaLocation | null;
+}
 
-export const UmbrellaMap = React.memo(function UmbrellaMap() {
-  const { location, isLoading } = useUmbrellaLocation();
+// The map component is now a pure presentation component that receives location as a prop.
+export const UmbrellaMap: React.FC<UmbrellaMapProps> = ({ location }) => {
   
-  if (isLoading) {
-      return <Skeleton className="h-[434px]" />;
-  }
-
   if (!location) {
       return (
           <Card>
@@ -65,6 +63,6 @@ export const UmbrellaMap = React.memo(function UmbrellaMap() {
       </CardContent>
     </Card>
   );
-});
+};
 
 UmbrellaMap.displayName = 'UmbrellaMap';
