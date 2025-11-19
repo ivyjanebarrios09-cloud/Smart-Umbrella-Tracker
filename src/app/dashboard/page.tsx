@@ -5,6 +5,7 @@ import { Forecast } from '@/components/dashboard/forecast';
 import { AlertSection } from '@/components/dashboard/alert-section';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { UmbrellaMapLoader } from '@/components/dashboard/umbrella-map-loader';
 
 export default function DashboardPage() {
   return (
@@ -13,10 +14,13 @@ export default function DashboardPage() {
         <Suspense fallback={<Skeleton className="h-[220px]" />}>
           <CurrentWeatherCard />
         </Suspense>
-      </div>
-      <div className="grid auto-rows-min gap-4 md:gap-8 lg:col-span-1">
         <Suspense fallback={<Skeleton className="h-[180px]" />}>
           <AlertSection />
+        </Suspense>
+      </div>
+      <div className="grid auto-rows-min gap-4 md:gap-8 lg:col-span-1">
+        <Suspense fallback={<Skeleton className="h-[434px]" />}>
+          <UmbrellaMapLoader />
         </Suspense>
       </div>
       <div className="lg:col-span-2">

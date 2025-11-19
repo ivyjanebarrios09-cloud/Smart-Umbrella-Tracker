@@ -10,3 +10,9 @@ export type ForecastDay = {
   maxTemp: number;
   minTemp: number;
 };
+
+export type UmbrellaLocation = {
+  lat: number;
+  lng: number;
+  address: string;
+};
