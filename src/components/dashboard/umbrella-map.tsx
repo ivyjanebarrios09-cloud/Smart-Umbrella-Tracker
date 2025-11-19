@@ -13,7 +13,9 @@ export function UmbrellaMap({ initialLocation }: { initialLocation: UmbrellaLoca
     // This simulates real-time updates from Firestore
     const interval = setInterval(async () => {
       const newLocation = await getUmbrellaLocation();
-      setLocation(newLocation);
+      if (newLocation) {
+        setLocation(newLocation);
+      }
     }, 60000); // Update every 60 seconds
 
     return () => clearInterval(interval);

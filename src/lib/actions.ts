@@ -1,11 +1,9 @@
 'use server';
 
-import { auth } from '@/lib/firebase';
 import { revalidatePath } from 'next/cache';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from './firebase';
 
-// In a real app, this would write to Firestore
-// import { db } from '@/lib/firebase';
-// import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export async function sendMissingAlert(userId: string) {
   if (!userId) {
@@ -13,23 +11,18 @@ export async function sendMissingAlert(userId: string) {
   }
 
   try {
-    // Simulate writing to a 'alerts' collection in Firestore
-    console.log('Sending missing alert for user:', userId);
-    console.log('Timestamp:', new Date().toISOString());
-
-    /*
-    // Real implementation:
     await addDoc(collection(db, "alerts"), {
       userId: userId,
       timestamp: serverTimestamp(),
       message: "Umbrella marked as missing"
     });
-    */
 
     revalidatePath('/dashboard');
     return { success: 'Alert sent successfully!' };
   } catch (error) {
     console.error('Error sending alert:', error);
-    return { error: 'Failed to send alert.' };
+    // In a real app, you'd want to check the error type
+    // and provide a more specific message.
+    return { error: 'Failed to send alert. You may not have permission.' };
   }
 }

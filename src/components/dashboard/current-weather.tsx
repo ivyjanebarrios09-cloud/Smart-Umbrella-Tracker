@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { WeatherIcon } from '@/lib/icons';
-import { Thermometer, Wind } from 'lucide-react';
+import { Wind } from 'lucide-react';
 import type { CurrentWeather } from '@/lib/data';
 import { getCurrentWeather } from '@/lib/data';
 
@@ -13,7 +13,9 @@ export function CurrentWeatherCard({ initialWeather }: { initialWeather: Current
   useEffect(() => {
     const interval = setInterval(async () => {
       const newWeather = await getCurrentWeather();
-      setWeather(newWeather);
+      if (newWeather) {
+        setWeather(newWeather);
+      }
     }, 30000); // Auto-refresh every 30 seconds
 
     return () => clearInterval(interval);

@@ -6,82 +6,41 @@
       "type": "object",
       "description": "Represents the weather data for a specific location, including current conditions and forecast.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the weather data entry."
+        "location": {
+          "type": "object",
+          "properties": {
+            "city": { "type": "string" },
+            "province": { "type": "string" },
+            "country": { "type": "string" },
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" }
+          },
+          "required": ["city", "province", "country", "latitude", "longitude"]
         },
-        "locationId": {
-          "type": "string",
-          "description": "Reference to the Location. (Relationship: Weather 1:1 Location)"
+        "current": {
+          "type": "object",
+          "properties": {
+            "timestamp": { "type": "string", "format": "date-time" },
+            "temperature": { "type": "number" },
+            "humidity": { "type": "number" },
+            "wind_speed": { "type": "number" },
+            "condition": { "type": "string" }
+          },
+          "required": ["timestamp", "temperature", "humidity", "wind_speed", "condition"]
         },
-        "currentTimestamp": {
-          "type": "string",
-          "description": "Timestamp of the current weather conditions. ISO 8601 date and time format.",
-          "format": "date-time"
+        "forecast_daily_raw": {
+          "type": "object",
+          "properties": {
+            "time": { "type": "array", "items": { "type": "string" } },
+            "temperature_2m_max": { "type": "array", "items": { "type": "number" } },
+            "temperature_2m_min": { "type": "array", "items": { "type": "number" } },
+            "weather_code": { "type": "array", "items": { "type": "number" } }
+          },
+          "required": ["time", "temperature_2m_max", "temperature_2m_min", "weather_code"]
         },
-        "currentTemperature": {
-          "type": "number",
-          "description": "Current temperature in Celsius."
-        },
-        "currentHumidity": {
-          "type": "number",
-          "description": "Current humidity percentage."
-        },
-        "currentWindSpeed": {
-          "type": "number",
-          "description": "Current wind speed in kilometers per hour."
-        },
-        "currentCondition": {
-          "type": "string",
-          "description": "Textual description of the current weather condition (e.g., Cloudy, Sunny)."
-        },
-        "forecastDailyRawTime": {
-          "type": "array",
-          "description": "Array of timestamps for the daily weather forecast.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forecastDailyRawTemperature2mMax": {
-          "type": "array",
-          "description": "Array of maximum temperatures for the daily weather forecast.",
-          "items": {
-            "type": "number"
-          }
-        },
-        "forecastDailyRawTemperature2mMin": {
-          "type": "array",
-          "description": "Array of minimum temperatures for the daily weather forecast.",
-          "items": {
-            "type": "number"
-          }
-        },
-        "forecastDailyRawWeatherCode": {
-          "type": "array",
-          "description": "Array of weather codes for the daily weather forecast.",
-          "items": {
-            "type": "number"
-          }
-        },
-        "rawApiResponse": {
-          "type": "string",
-          "description": "Raw API response data (JSON string)."
-        }
+        "raw_api_response": { "type": "string" }
       },
-      "required": [
-        "id",
-        "locationId",
-        "currentTimestamp",
-        "currentTemperature",
-        "currentHumidity",
-        "currentWindSpeed",
-        "currentCondition",
-        "forecastDailyRawTime",
-        "forecastDailyRawTemperature2mMax",
-        "forecastDailyRawTemperature2mMin",
-        "forecastDailyRawWeatherCode",
-        "rawApiResponse"
-      ]
+      "required": ["location", "current", "forecast_daily_raw", "raw_api_response"]
     },
     "Location": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -89,45 +48,11 @@
       "type": "object",
       "description": "Represents a geographical location.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the location."
-        },
-        "city": {
-          "type": "string",
-          "description": "City name."
-        },
-        "province": {
-          "type": "string",
-          "description": "Province name."
-        },
-        "country": {
-          "type": "string",
-          "description": "Country name."
-        },
-        "latitude": {
-          "type": "number",
-          "description": "Latitude coordinate."
-        },
-        "longitude": {
-          "type": "number",
-          "description": "Longitude coordinate."
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "Timestamp of the location data. ISO 8601 date and time format.",
-          "format": "date-time"
-        }
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
       },
-      "required": [
-        "id",
-        "city",
-        "province",
-        "country",
-        "latitude",
-        "longitude",
-        "timestamp"
-      ]
+      "required": ["latitude", "longitude", "timestamp"]
     },
     "Alert": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -135,30 +60,11 @@
       "type": "object",
       "description": "Represents an alert sent by a user.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the alert."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the User who sent the alert. (Relationship: User 1:N Alert)"
-        },
-        "message": {
-          "type": "string",
-          "description": "Message content of the alert."
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "Timestamp of when the alert was sent. ISO 8601 date and time format.",
-          "format": "date-time"
-        }
+        "userId": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
       },
-      "required": [
-        "id",
-        "userId",
-        "message",
-        "timestamp"
-      ]
+      "required": ["userId", "message", "timestamp"]
     },
     "User": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -188,15 +94,10 @@
         "path": "locations/{locationId}",
         "definition": {
           "entityName": "Location",
-          "schema": {
-            "$ref": "#/backend/entities/Location"
-          },
-          "description": "Stores location data with fields for city, province, country, latitude, longitude, and timestamp.",
+          "schema": { "$ref": "#/backend/entities/Location" },
+          "description": "Stores location data.",
           "params": [
-            {
-              "name": "locationId",
-              "description": "The unique identifier for the location."
-            }
+            { "name": "locationId", "description": "The unique identifier for the location." }
           ]
         }
       },
@@ -204,55 +105,24 @@
         "path": "weather/{weatherId}",
         "definition": {
           "entityName": "Weather",
-          "schema": {
-            "$ref": "#/backend/entities/Weather"
-          },
-          "description": "Stores weather data, including current conditions and forecast, with a reference to the associated location.",
+          "schema": { "$ref": "#/backend/entities/Weather" },
+          "description": "Stores weather data.",
           "params": [
-            {
-              "name": "weatherId",
-              "description": "The unique identifier for the weather data entry."
-            }
+            { "name": "weatherId", "description": "The unique identifier for the weather data entry." }
           ]
         }
       },
       {
-        "path": "users/{userId}/alerts/{alertId}",
+        "path": "alerts/{alertId}",
         "definition": {
           "entityName": "Alert",
-          "schema": {
-            "$ref": "#/backend/entities/Alert"
-          },
-          "description": "Stores alerts sent by users, with the userId in the path enforcing ownership.",
+          "schema": { "$ref": "#/backend/entities/Alert" },
+          "description": "Stores alerts sent by users.",
           "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            },
-            {
-              "name": "alertId",
-              "description": "The unique identifier for the alert."
-            }
-          ]
-        }
-      },
-      {
-        "path": "users/{userId}",
-        "definition": {
-          "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/User"
-          },
-          "description": "Stores user data. Serves as the parent collection for user-owned data, such as alerts.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            }
+            { "name": "alertId", "description": "The unique identifier for the alert." }
           ]
         }
       }
-    ],
-    "reasoning": "The Firestore structure is designed to support the Smart Umbrella Tracker application, focusing on efficient data retrieval and secure access. The structure is segregated by entity type to simplify security rules and improve query performance. Key design decisions include:\n\n1.  **Weather and Location Data:** Weather data is stored under a `weather` collection, while location data, related 1:1 with Weather, is stored in a `locations` collection. Weather documents contain the weather forecast and current weather conditions. This approach allows for easy querying of weather data for a specific location. By creating a separate `location` collection, it avoid duplicating location data across multiple weather documents.\n\n2.  **User Alerts:** Alerts are stored within user-specific subcollections (`users/{userId}/alerts`). This structure enforces clear ownership and simplifies security rules, ensuring only the user can access their alerts.\n\n3. **Authorization Independence and QAPs**: Alerts are stored in user-specific subcollections (`/users/{userId}/alerts`). This structure means authorization is based solely on the user's ID in the path, achieving authorization independence. Listing alerts is secure because it is scoped to the user's subcollection (QAPs).\n\nThis structure avoids `get()` calls in security rules, enabling atomic operations and improving scalability and debuggability. The segregation of data into dedicated collections based on access patterns simplifies rules and ensures that `list` operations are secure."
+    ]
   }
 }
