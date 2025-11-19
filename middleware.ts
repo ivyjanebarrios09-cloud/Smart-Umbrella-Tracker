@@ -15,18 +15,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // If there is a session, and trying to access an auth route, redirect to dashboard
-  if (sessionToken && authRoutes.some(path => pathname.startsWith(path))) {
+  // If there is a session, and trying to access an auth route or the landing page, redirect to dashboard
+  if (sessionToken && (authRoutes.some(path => pathname.startsWith(path)) || pathname === '/')) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
   
-  // If at the root path, decide where to redirect
-  if (pathname === '/') {
-    const url = request.nextUrl.clone();
-    url.pathname = sessionToken ? '/dashboard' : '/login';
-    return NextResponse.redirect(url);
+  // If at the root path and no session, allow access to the landing page.
+  if (pathname === '/' && !sessionToken) {
+    return NextResponse.next();
   }
 
   return NextResponse.next();
