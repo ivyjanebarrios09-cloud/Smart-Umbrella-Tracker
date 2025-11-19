@@ -4,6 +4,7 @@ import { useUmbrellaLocation } from '@/hooks/use-umbrella-location';
 import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 
+// Dynamically import the map component with SSR turned off.
 const UmbrellaMap = dynamic(
   () => import('@/components/dashboard/umbrella-map').then((mod) => mod.UmbrellaMap),
   {
@@ -27,5 +28,6 @@ export function UmbrellaMapLoader() {
     );
   }
 
+  // Pass the location data to the dynamically loaded map component.
   return <UmbrellaMap location={location} />;
 }

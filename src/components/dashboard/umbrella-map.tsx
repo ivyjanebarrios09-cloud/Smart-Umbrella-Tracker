@@ -1,7 +1,7 @@
 'use client';
 
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import type { UmbrellaLocation } from '@/lib/data';
 import L from 'leaflet';
 
@@ -31,6 +31,16 @@ const icon = L.icon({
 interface UmbrellaMapProps {
   location: UmbrellaLocation;
 }
+
+// A new child component to programmatically update the map's view.
+function MapUpdater({ position }: { position: LatLngExpression }) {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(position, map.getZoom());
+  }, [position, map]);
+  return null;
+}
+
 
 export function UmbrellaMap({ location }: UmbrellaMapProps) {
   const position = useMemo<LatLngExpression>(
@@ -61,6 +71,7 @@ export function UmbrellaMap({ location }: UmbrellaMapProps) {
             <Marker position={position} icon={icon}>
               <Popup>Your umbrella's last known location.</Popup>
             </Marker>
+            <MapUpdater position={position} />
           </MapContainer>
         </div>
       </CardContent>
