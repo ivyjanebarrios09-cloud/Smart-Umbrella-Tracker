@@ -17,7 +17,7 @@ export default async function DashboardPage() {
           <CurrentWeatherCard initialWeather={data.currentWeather} />
         </Suspense>
         <Suspense fallback={<Skeleton className="h-[180px]" />}>
-          <AlertSection initialLocation={data.umbrellaLocation.lastSeen} initialForecast={JSON.stringify(data.forecast)} />
+          <AlertSection />
         </Suspense>
       </div>
       <div className="grid auto-rows-min gap-4 md:gap-8 lg:col-span-1 xl:col-span-2">
