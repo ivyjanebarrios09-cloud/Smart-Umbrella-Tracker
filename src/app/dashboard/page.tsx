@@ -20,8 +20,8 @@ export default function DashboardPage() {
                 <WindCard />
             </Suspense>
         </div>
-        <Suspense fallback={<Skeleton className="h-[180px]" />}>
-          <AlertSection />
+        <Suspense fallback={<Skeleton className="h-[220px]" />}>
+            <Forecast />
         </Suspense>
       </div>
       <div className="grid auto-rows-min gap-4 md:gap-8 lg:col-span-1">
@@ -30,8 +30,8 @@ export default function DashboardPage() {
         </Suspense>
       </div>
       <div className="lg:col-span-2">
-        <Suspense fallback={<Skeleton className="h-[220px]" />}>
-            <Forecast />
+        <Suspense fallback={<Skeleton className="h-[180px]" />}>
+          <AlertSection />
         </Suspense>
       </div>
     </div>
