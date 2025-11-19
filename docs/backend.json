@@ -76,6 +76,28 @@
           "format": "email"
         }
       }
+    },
+    "Device": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Device",
+      "description": "Represents a user's device.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "userId": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "deviceId", "userId", "createdAt"]
     }
   },
   "auth": {
@@ -118,6 +140,26 @@
             {
               "name": "weatherDocId",
               "description": "The identifier for the weather document, e.g., 'current'."
+            }
+          ]
+        }
+      },
+      {
+        "path": "users/{userId}/devices/{deviceId}",
+        "definition": {
+          "entityName": "Device",
+          "schema": {
+            "$ref": "#/backend/entities/Device"
+          },
+          "description": "Stores device data for a specific user.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The user's ID."
+            },
+            {
+              "name": "deviceId",
+              "description": "The identifier for the device."
             }
           ]
         }

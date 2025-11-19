@@ -24,6 +24,11 @@ service cloud.firestore {
     match /users/{userId}/weather/{weatherDocId} {
        allow read, write: if isOwner(userId);
     }
+    
+    // Device data can be read, created, updated, and deleted only by the owner.
+    match /users/{userId}/devices/{deviceId} {
+      allow read, write: if isOwner(userId);
+    }
 
     // Location data is public to read for the dashboard map
     match /locations/{locationId} {
@@ -34,7 +39,7 @@ service cloud.firestore {
     // Any authenticated user can create an alert.
     // Only the user who created an alert can read, update, or delete it.
     match /alerts/{alertId} {
-      allow read, update, delete: if isOwner(resource.data.userId);
+      allow read, update, delete: if isAuthenticated() && isOwner(resource.data.userId);
       allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
     }
   }

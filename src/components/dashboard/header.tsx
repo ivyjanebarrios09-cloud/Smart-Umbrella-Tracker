@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Umbrella, LogOut, Loader2 } from 'lucide-react';
+import { Umbrella, LogOut, Loader2, HardDrive } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,6 +44,15 @@ export function DashboardHeader() {
         >
           <Umbrella className="h-6 w-6 text-primary transition-transform group-hover:rotate-12" />
           <span className="font-bold">Smart Umbrella</span>
+        </Link>
+        <Link
+            href="/dashboard/devices"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+            <div className="flex items-center gap-2">
+                <HardDrive className="h-5 w-5" />
+                Devices
+            </div>
         </Link>
       </nav>
       <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
