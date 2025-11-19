@@ -11,15 +11,15 @@ const UmbrellaMap = dynamic(() => import('@/components/dashboard/umbrella-map').
   loading: () => <Skeleton className="h-[434px]" />,
 });
 
-// This new loader component will manage fetching the location and passing it to the map.
-// This isolates the client-side logic.
+// This loader component manages fetching the location and passing it to the map.
 export function UmbrellaMapLoader() {
   const { location, isLoading } = useUmbrellaLocation();
 
+  // We wait until loading is fully complete before attempting to render the map
   if (isLoading) {
     return <Skeleton className="h-[434px]" />;
   }
 
-  // Pass the location data as props to the now pure client-side map component
+  // Pass the final, stable location data as props to the map component
   return <UmbrellaMap location={location} />;
 }
