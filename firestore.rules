@@ -2,38 +2,8 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper function to check if the user is authenticated
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
-    // Helper function to check if the user is the owner of the document
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    // Users can read their own profile, but only create it. No updates/deletes.
-    match /users/{userId} {
-      allow read: if isOwner(userId);
-      allow create: if isAuthenticated();
-    }
-    
-    // Weather data can only be read by the owner.
-    // The device writing the data should be authenticated as the user.
-    match /users/{userId}/weather/{weatherDocId} {
-       allow read, write: if isOwner(userId);
-    }
-    
-    // Device data can be read, created, updated, and deleted only by the owner.
-    match /users/{userId}/devices/{deviceId} {
-      allow read, write: if isOwner(userId);
-    }
-    
-    // Any authenticated user can create an alert.
-    // Only the user who created an alert can read, update, or delete it.
-    match /users/{userId}/devices/{deviceId}/alerts/{alertId} {
-      allow read, write: if isOwner(userId);
+    match /{document=**} {
+      allow read, write: if true;
     }
   }
 }
