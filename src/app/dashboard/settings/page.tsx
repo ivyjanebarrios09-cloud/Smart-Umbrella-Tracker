@@ -7,12 +7,19 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">Settings</h3>
+    <div className="space-y-4">
+       <Link href="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Dashboard
+      </Link>
+      <div className="space-y-2">
+        <h3 className="text-2xl font-bold tracking-tight">Settings</h3>
         <p className="text-sm text-muted-foreground">
           Manage your account settings, devices, and theme preferences.
         </p>
