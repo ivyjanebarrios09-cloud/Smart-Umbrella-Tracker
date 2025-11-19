@@ -73,6 +73,9 @@
       "description": "Represents a user's profile information.",
       "type": "object",
       "properties": {
+        "name": {
+            "type": "string"
+        },
         "email": {
           "type": "string",
           "format": "email"

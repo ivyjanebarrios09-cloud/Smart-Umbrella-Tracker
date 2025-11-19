@@ -4,7 +4,7 @@ import { AddDeviceForm } from '@/components/dashboard/devices/add-device-form';
 import { DeviceList } from '@/components/dashboard/devices/device-list';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function DevicesPage() {
+export function DevicesCard() {
   return (
     <div className="grid gap-6">
         <Card>
