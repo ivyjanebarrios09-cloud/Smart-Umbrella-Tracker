@@ -44,7 +44,7 @@ export const UmbrellaMap: React.FC<UmbrellaMapProps> = ({ location }) => {
     <Card>
         <CardHeader>
             <CardTitle>Last Known Location</CardTitle>
-            <CardDescription>Last seen: {location.lastSeen}</CardDescription>
+            <CardDescription>{location.address}</CardDescription>
         </CardHeader>
         <CardContent>
             <div className="h-[350px] rounded-md overflow-hidden">
@@ -55,7 +55,7 @@ export const UmbrellaMap: React.FC<UmbrellaMapProps> = ({ location }) => {
                     />
                     <Marker position={[location.lat, location.lng]} icon={icon}>
                         <Popup>
-                            Your umbrella was last seen here.
+                           Last seen: {location.lastSeen}
                         </Popup>
                     </Marker>
                 </MapContainer>

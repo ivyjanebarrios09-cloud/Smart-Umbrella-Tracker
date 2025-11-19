@@ -15,4 +15,5 @@ export type UmbrellaLocation = {
   lat: number;
   lng: number;
   lastSeen: string;
+  address: string;
 };
