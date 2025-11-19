@@ -1,25 +1,41 @@
-
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isOwner(userId) {
-      return request.auth != null && request.auth.uid == userId;
+    // Helper function to check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
+    // Helper function to check if the user is the owner of the document
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Users can read their own profile, but only create it. No updates/deletes.
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isAuthenticated();
+    }
+    
+    // Weather data can only be read by the owner.
+    // The device writing the data should be authenticated as the user.
+    match /users/{userId}/weather/{weatherDocId} {
+       allow read, write: if isOwner(userId);
+    }
+
+    // Location data is public to read for the dashboard map
     match /locations/{locationId} {
       allow read: if true;
-      allow write: if false; 
+      allow write: if isAuthenticated(); // Or more specific rules for the device
     }
-
-    match /weather/{weatherId} {
-      allow read: if true;
-      allow write: if false;
-    }
-
+    
+    // Any authenticated user can create an alert.
+    // Only the user who created an alert can read, update, or delete it.
     match /alerts/{alertId} {
       allow read, update, delete: if isOwner(resource.data.userId);
-      allow create: if request.auth != null;
+      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
     }
   }
 }

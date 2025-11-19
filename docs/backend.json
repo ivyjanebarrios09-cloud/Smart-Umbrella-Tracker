@@ -4,49 +4,48 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Weather",
       "type": "object",
-      "description": "Represents the weather data for a specific location, including current conditions and forecast.",
+      "description": "Represents the weather data for a specific user's location.",
       "properties": {
-        "location": {
-          "type": "object",
-          "properties": {
-            "city": { "type": "string" },
-            "province": { "type": "string" },
-            "country": { "type": "string" },
-            "latitude": { "type": "number" },
-            "longitude": { "type": "number" }
-          },
-          "required": ["city", "province", "country", "latitude", "longitude"]
-        },
-        "current": {
-          "type": "object",
-          "properties": {
-            "timestamp": { "type": "string", "format": "date-time" },
-            "temperature": { "type": "number" },
-            "humidity": { "type": "number" },
-            "wind_speed": { "type": "number" },
-            "condition": { "type": "string" }
-          },
-          "required": ["timestamp", "temperature", "humidity", "wind_speed", "condition"]
+        "condition": {
+          "type": "string"
         },
         "forecast_daily_raw": {
-          "type": "object",
-          "properties": {
-            "time": { "type": "array", "items": { "type": "string" } },
-            "temperature_2m_max": { "type": "array", "items": { "type": "number" } },
-            "temperature_2m_min": { "type": "array", "items": { "type": "number" } },
-            "weather_code": { "type": "array", "items": { "type": "number" } }
-          },
-          "required": ["time", "temperature_2m_max", "temperature_2m_min", "weather_code"]
+          "type": "string",
+          "description": "A JSON string representing the daily forecast."
         },
-        "raw_api_response": { "type": "string" }
+        "latitude": {
+          "type": "number"
+        },
+        "location_str": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "time": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "number"
+        },
+        "windspeed": {
+          "type": "number"
+        }
       },
-      "required": ["location", "current", "forecast_daily_raw", "raw_api_response"]
+      "required": [
+        "condition",
+        "temperature",
+        "windspeed"
+      ]
     },
     "Location": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Location",
       "type": "object",
-      "description": "Represents a geographical location.",
+      "description": "Represents a geographical location for the umbrella.",
       "properties": {
         "latitude": { "type": "number" },
         "longitude": { "type": "number" },
@@ -66,20 +65,17 @@
       },
       "required": ["userId", "message", "timestamp"]
     },
-    "User": {
+    "UserProfile": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User",
+      "title": "User Profile",
+      "description": "Represents a user's profile information.",
       "type": "object",
-      "description": "Represents a user of the application.",
       "properties": {
-        "id": {
+        "email": {
           "type": "string",
-          "description": "Unique identifier for the user."
+          "format": "email"
         }
-      },
-      "required": [
-        "id"
-      ]
+      }
     }
   },
   "auth": {
@@ -91,36 +87,63 @@
   "firestore": {
     "structure": [
       {
+        "path": "users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "users/{userId}/weather/{weatherDocId}",
+        "definition": {
+          "entityName": "Weather",
+          "schema": {
+            "$ref": "#/backend/entities/Weather"
+          },
+          "description": "Stores weather data for a specific user. Typically the document ID is 'current'.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The user's ID."
+            },
+            {
+              "name": "weatherDocId",
+              "description": "The identifier for the weather document, e.g., 'current'."
+            }
+          ]
+        }
+      },
+      {
         "path": "locations/{locationId}",
         "definition": {
           "entityName": "Location",
-          "schema": { "$ref": "#/backend/entities/Location" },
-          "description": "Stores location data.",
+          "schema": {
+            "$ref": "#/backend/entities/Location"
+          },
+          "description": "Stores location data for the umbrella.",
           "params": [
-            { "name": "locationId", "description": "The unique identifier for the location." }
+            {
+              "name": "locationId",
+              "description": "The unique identifier for the location."
+            }
           ]
         }
       },
       {
-        "path": "weather/{weatherId}",
-        "definition": {
-          "entityName": "Weather",
-          "schema": { "$ref": "#/backend/entities/Weather" },
-          "description": "Stores weather data.",
-          "params": [
-            { "name": "weatherId", "description": "The unique identifier for the weather data entry." }
-          ]
-        }
-      },
-      {
-        "path": "alerts/{alertId}",
+        "path": "alerts",
         "definition": {
           "entityName": "Alert",
           "schema": { "$ref": "#/backend/entities/Alert" },
-          "description": "Stores alerts sent by users.",
-          "params": [
-            { "name": "alertId", "description": "The unique identifier for the alert." }
-          ]
+          "description": "Collection of all alerts sent by users."
         }
       }
     ]

@@ -10,8 +10,27 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { WeatherIcon } from '@/lib/icons';
 import type { ForecastDay } from '@/lib/data';
+import { useWeatherData } from '@/hooks/use-weather-data';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export function Forecast({ initialForecast }: { initialForecast: ForecastDay[] }) {
+export function Forecast() {
+  const { forecast, isLoading } = useWeatherData();
+
+  if (isLoading) {
+      return <Skeleton className="h-[220px]" />
+  }
+
+  if (!forecast || forecast.length === 0) {
+    return (
+        <Card>
+            <CardContent className="p-6">
+                 <h3 className="text-lg font-medium mb-4">7-Day Forecast</h3>
+                 <p>Forecast data not available.</p>
+            </CardContent>
+        </Card>
+    )
+  }
+
   return (
     <Card>
       <CardContent className="p-6">
@@ -23,7 +42,7 @@ export function Forecast({ initialForecast }: { initialForecast: ForecastDay[] }
           className="w-full"
         >
           <CarouselContent>
-            {initialForecast.map((day, index) => (
+            {forecast.map((day, index) => (
               <CarouselItem key={index} className="basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/7 xl:basis-[13%]">
                 <div className="p-1">
                   <div className="flex flex-col items-center justify-center space-y-2 rounded-lg border bg-card p-4 h-full">

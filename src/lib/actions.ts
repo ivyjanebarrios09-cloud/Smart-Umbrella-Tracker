@@ -19,10 +19,10 @@ export async function sendMissingAlert(userId: string) {
 
     revalidatePath('/dashboard');
     return { success: 'Alert sent successfully!' };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error sending alert:', error);
     // In a real app, you'd want to check the error type
     // and provide a more specific message.
-    return { error: 'Failed to send alert. You may not have permission.' };
+    return { error: error.message || 'Failed to send alert. You may not have permission.' };
   }
 }

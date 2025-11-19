@@ -1,26 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import type { UmbrellaLocation } from '@/lib/data';
-import { getUmbrellaLocation } from '@/lib/data';
+import { useUmbrellaLocation } from '@/hooks/use-umbrella-location';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export function UmbrellaMap({ initialLocation }: { initialLocation: UmbrellaLocation }) {
-  const [location, setLocation] = useState(initialLocation);
-
-  useEffect(() => {
-    // This simulates real-time updates from Firestore
-    const interval = setInterval(async () => {
-      const newLocation = await getUmbrellaLocation();
-      if (newLocation) {
-        setLocation(newLocation);
-      }
-    }, 60000); // Update every 60 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-  
+export function UmbrellaMap() {
+  const { location, isLoading } = useUmbrellaLocation();
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
@@ -36,6 +22,25 @@ export function UmbrellaMap({ initialLocation }: { initialLocation: UmbrellaLoca
             </CardContent>
         </Card>
     )
+  }
+  
+  if (isLoading) {
+      return <Skeleton className="h-[434px]" />;
+  }
+
+  if (!location) {
+      return (
+          <Card>
+              <CardHeader>
+                  <CardTitle>Last Known Location</CardTitle>
+              </CardHeader>
+              <CardContent>
+                   <div className="h-[350px] flex items-center justify-center bg-muted rounded-md">
+                        <p>Location data not available.</p>
+                    </div>
+              </CardContent>
+          </Card>
+      )
   }
 
   return (

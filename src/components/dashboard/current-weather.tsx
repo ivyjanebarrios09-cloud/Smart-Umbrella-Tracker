@@ -1,25 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { WeatherIcon } from '@/lib/icons';
 import { Wind } from 'lucide-react';
-import type { CurrentWeather } from '@/lib/data';
-import { getCurrentWeather } from '@/lib/data';
+import { useWeatherData } from '@/hooks/use-weather-data';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export function CurrentWeatherCard({ initialWeather }: { initialWeather: CurrentWeather }) {
-  const [weather, setWeather] = useState(initialWeather);
+export function CurrentWeatherCard() {
+  const { weather, isLoading } = useWeatherData();
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const newWeather = await getCurrentWeather();
-      if (newWeather) {
-        setWeather(newWeather);
-      }
-    }, 30000); // Auto-refresh every 30 seconds
+  if (isLoading) {
+    return <Skeleton className="h-[220px]" />;
+  }
 
-    return () => clearInterval(interval);
-  }, []);
+  if (!weather) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Current Weather</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Weather data not available.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -34,7 +39,7 @@ export function CurrentWeatherCard({ initialWeather }: { initialWeather: Current
         <p className="text-xs text-muted-foreground">{weather.condition}</p>
         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <div className="flex items-center">
-                <Wind className="mr-1 h-4 w-4" /> {weather.windSpeed} km/h
+                <Wind className="mr-1 h-4 w-4" /> {weather.windspeed} km/h
             </div>
         </div>
       </CardContent>
