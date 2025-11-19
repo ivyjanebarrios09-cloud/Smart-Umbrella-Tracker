@@ -18,7 +18,8 @@ service cloud.firestore {
     }
 
     match /alerts/{alertId} {
-      allow read, write: if isOwner(resource.data.userId);
+      allow read, update, delete: if isOwner(resource.data.userId);
+      allow create: if request.auth != null;
     }
   }
 }
