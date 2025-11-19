@@ -15,14 +15,15 @@ export function EmbeddedMap() {
   const { location, isLoading } = useUmbrellaLocation();
 
   if (isLoading) {
-    return <Skeleton className="h-[220px] w-full" />;
+    return <Skeleton className="h-full w-full" />;
   }
 
   if (!location) {
     return (
-      <Card className="flex h-[220px] w-full items-center justify-center">
-        <CardContent>
-          <p className="text-muted-foreground">Location data not available.</p>
+      <Card className="flex-1 flex items-center justify-center">
+        <CardContent className="p-6 text-center">
+             <MapPin className="h-6 w-6 mx-auto text-muted-foreground mb-2" />
+          <p className="text-sm text-muted-foreground">Location data not available.</p>
         </CardContent>
       </Card>
     );
@@ -31,20 +32,17 @@ export function EmbeddedMap() {
   const mapSrc = `https://maps.google.com/maps?q=${location.lat},${location.lng}&z=15&output=embed`;
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="flex-1 flex flex-col">
       <CardHeader>
-        <div className="flex items-start justify-between">
           <div>
-            <CardTitle>Last Known Location</CardTitle>
-            <CardDescription className="mt-1">
+            <CardTitle className="text-base">Last Known Location</CardTitle>
+            <CardDescription className="mt-1 text-xs truncate">
               {location.address}
             </CardDescription>
           </div>
-          <MapPin className="h-5 w-5 text-muted-foreground" />
-        </div>
       </CardHeader>
-      <CardContent>
-        <div className="h-[135px] rounded-md overflow-hidden border">
+      <CardContent className="p-0 flex-1">
+        <div className="h-full w-full rounded-b-md overflow-hidden">
           <iframe
             width="100%"
             height="100%"

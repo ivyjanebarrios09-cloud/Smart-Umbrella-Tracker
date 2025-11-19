@@ -113,10 +113,10 @@ export function AlertSection() {
 
   if (isLoadingDevices) {
       return (
-          <Card>
+          <Card className="flex-1">
               <CardHeader>
-                  <CardTitle>Alert System</CardTitle>
-                  <CardDescription>Control your umbrella's buzzer and light.</CardDescription>
+                  <CardTitle className="text-base">Alert System</CardTitle>
+                  <CardDescription className="text-xs">Buzzer and light</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                   <Skeleton className="h-8 w-full" />
@@ -128,40 +128,40 @@ export function AlertSection() {
   
   if (!firstDevice) {
        return (
-            <Card>
+            <Card className="flex-1">
                 <CardHeader>
-                    <CardTitle>Alert System</CardTitle>
-                    <CardDescription>Control your umbrella's buzzer and light.</CardDescription>
+                    <CardTitle className="text-base">Alert System</CardTitle>
+                    <CardDescription className="text-xs">Buzzer and light</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">Please add a device to enable the alert system.</p>
+                    <p className="text-sm text-muted-foreground">Add a device to enable alerts.</p>
                 </CardContent>
             </Card>
        )
   }
 
   return (
-    <Card>
+    <Card className="flex-1 flex flex-col">
       <CardHeader>
-        <CardTitle>Alert System</CardTitle>
-        <CardDescription>
-          Remotely control your umbrella's buzzer and light for device: <strong>{firstDevice.name}</strong>.
+        <CardTitle className="text-base">Alert System</CardTitle>
+        <CardDescription className="text-xs truncate">
+          For device: <strong>{firstDevice.name}</strong>
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center justify-between rounded-lg border p-4">
-          <div className="flex items-center space-x-3">
-            {buzzerOn ? <Volume2 className="h-6 w-6 text-primary" /> : <VolumeX className="h-6 w-6 text-muted-foreground" />}
-            <Label htmlFor="buzzer-switch" className="font-medium">
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-center">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            {buzzerOn ? <Volume2 className="h-5 w-5 text-primary" /> : <VolumeX className="h-5 w-5 text-muted-foreground" />}
+            <Label htmlFor="buzzer-switch" className="text-sm font-medium">
               Buzzer
             </Label>
           </div>
           {isUpdating === 'buzzer' ? <Loader2 className="h-5 w-5 animate-spin" /> : <Switch id="buzzer-switch" checked={buzzerOn} onCheckedChange={() => handleToggle('buzzer')} />}
         </div>
-        <div className="flex items-center justify-between rounded-lg border p-4">
-           <div className="flex items-center space-x-3">
-             {lightOn ? <Lightbulb className="h-6 w-6 text-primary" /> : <LightbulbOff className="h-6 w-6 text-muted-foreground" />}
-            <Label htmlFor="light-switch" className="font-medium">
+        <div className="flex items-center justify-between">
+           <div className="flex items-center space-x-2">
+             {lightOn ? <Lightbulb className="h-5 w-5 text-primary" /> : <LightbulbOff className="h-5 w-5 text-muted-foreground" />}
+            <Label htmlFor="light-switch" className="text-sm font-medium">
               Light
             </Label>
           </div>

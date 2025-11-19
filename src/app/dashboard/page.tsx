@@ -7,25 +7,38 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmbeddedMap } from '@/components/dashboard/embedded-map';
 import { WindCard } from '@/components/dashboard/wind-card';
+import { cn } from '@/lib/utils';
+
+const cardContainerClasses = "aspect-square flex flex-col";
 
 export default function DashboardPage() {
   return (
-    <div className="grid gap-4 md:gap-8 lg:grid-cols-3">
-        <Suspense fallback={<Skeleton className="h-[220px]" />}>
-          <CurrentWeatherCard />
-        </Suspense>
-        <Suspense fallback={<Skeleton className="h-[220px]" />}>
-          <WindCard />
-        </Suspense>
-         <Suspense fallback={<Skeleton className="h-[220px]" />}>
-          <AlertSection />
-        </Suspense>
-        <Suspense fallback={<Skeleton className="h-[220px]" />}>
-            <Forecast />
-        </Suspense>
-         <Suspense fallback={<Skeleton className="h-[220px] lg:col-span-2" />}>
-            <EmbeddedMap />
-        </Suspense>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className={cardContainerClasses}>
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+                <CurrentWeatherCard />
+            </Suspense>
+        </div>
+        <div className={cardContainerClasses}>
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+                <WindCard />
+            </Suspense>
+        </div>
+        <div className={cardContainerClasses}>
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+                <AlertSection />
+            </Suspense>
+        </div>
+        <div className={cn(cardContainerClasses, "col-span-2 md:col-span-1 lg:col-span-2")}>
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+                <Forecast />
+            </Suspense>
+        </div>
+        <div className={cardContainerClasses}>
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+                <EmbeddedMap />
+            </Suspense>
+        </div>
     </div>
   );
 }
