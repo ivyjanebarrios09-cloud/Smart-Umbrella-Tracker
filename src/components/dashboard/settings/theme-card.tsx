@@ -13,6 +13,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
 
 export function ThemeCard() {
   const { setTheme, theme } = useTheme();
@@ -20,7 +21,7 @@ export function ThemeCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Appearance</CardTitle>
+        <CardTitle className="animated-gradient-text">Appearance</CardTitle>
         <CardDescription>
           Customize the appearance of the app.
         </CardDescription>

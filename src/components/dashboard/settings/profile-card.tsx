@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/card';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required.'),
@@ -105,7 +106,7 @@ export function ProfileCard() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-            <CardTitle>Profile</CardTitle>
+            <CardTitle className="animated-gradient-text">Profile</CardTitle>
             <CardDescription>
               This is how others will see you on the site.
             </CardDescription>
