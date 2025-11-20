@@ -22,8 +22,8 @@ export function HeroSection() {
         <Image
           src="/image/logo.png"
           alt="GaleLight Logo"
-          width={150}
-          height={150}
+          width={250}
+          height={250}
           className="mb-4"
         />
         <h1 className="text-4xl font-bold md:text-6xl animated-gradient-text">
