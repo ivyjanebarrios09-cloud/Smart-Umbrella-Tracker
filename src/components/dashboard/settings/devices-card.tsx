@@ -10,7 +10,7 @@ export function DevicesCard() {
     <div className="grid gap-6">
         <Card>
             <CardHeader>
-                <CardTitle className="animated-gradient-text">Add New Device</CardTitle>
+                <CardTitle>Add New Device</CardTitle>
                 <CardDescription>Register a new device by providing a name and its unique device ID.</CardDescription>
             </CardHeader>
             <CardContent>
@@ -19,7 +19,7 @@ export function DevicesCard() {
         </Card>
         <Card>
             <CardHeader>
-                <CardTitle className="animated-gradient-text">Your Devices</CardTitle>
+                <CardTitle>Your Devices</CardTitle>
                 <CardDescription>A list of all your registered devices.</CardDescription>
             </CardHeader>
             <CardContent>

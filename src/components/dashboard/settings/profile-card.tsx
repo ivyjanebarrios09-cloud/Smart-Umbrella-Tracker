@@ -106,7 +106,7 @@ export function ProfileCard() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-            <CardTitle className="animated-gradient-text">Profile</CardTitle>
+            <CardTitle>Profile</CardTitle>
             <CardDescription>
               This is how others will see you on the site.
             </CardDescription>

@@ -21,7 +21,7 @@ export function ThemeCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="animated-gradient-text">Appearance</CardTitle>
+        <CardTitle>Appearance</CardTitle>
         <CardDescription>
           Customize the appearance of the app.
         </CardDescription>

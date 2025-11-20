@@ -101,7 +101,7 @@ export function AlertSection() {
        <CardHeader className="flex flex-row items-start gap-4">
         <BellRing className="h-8 w-8 text-primary" />
         <div>
-            <CardTitle className="text-2xl font-bold animated-gradient-text">Alert System</CardTitle>
+            <CardTitle className="text-2xl font-bold">Alert System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
                 Activate buzzer or light on your device.
             </CardDescription>
