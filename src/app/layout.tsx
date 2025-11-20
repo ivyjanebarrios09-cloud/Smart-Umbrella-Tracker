@@ -9,7 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'Smart Umbrella Tracker',
+  title: 'GaleLight',
   description: 'Never lose your umbrella again.',
 };
 
