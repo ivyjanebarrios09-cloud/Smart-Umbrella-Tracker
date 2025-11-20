@@ -10,7 +10,6 @@ export function LandingHeader() {
       <div className="container flex h-16 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/image/logo.png" alt="GaleLight Logo" width={32} height={32} />
             <span className="font-bold text-lg animated-gradient-text">GaleLight</span>
           </Link>
         </div>
