@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmbeddedMap } from '@/components/dashboard/embedded-map';
 import { WindCard } from '@/components/dashboard/wind-card';
+import { RealTimeClockCard } from '@/components/dashboard/real-time-clock';
 
 export default function DashboardPage() {
   return (
@@ -18,16 +19,21 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
           <CurrentWeatherCard />
         </Suspense>
         <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
           <WindCard />
         </Suspense>
-        <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
-          <Forecast />
+         <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+          <RealTimeClockCard />
         </Suspense>
+        <div className="lg:col-span-2">
+            <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
+            <Forecast />
+            </Suspense>
+        </div>
         <Suspense fallback={<Skeleton className="h-full w-full min-h-[250px]" />}>
           <EmbeddedMap />
         </Suspense>
