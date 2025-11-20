@@ -32,7 +32,7 @@ export function RealTimeClock() {
   };
 
   return (
-    <div className="absolute top-4 right-4 z-10 rounded-lg bg-card/80 px-4 py-2 text-right text-card-foreground shadow-sm backdrop-blur-sm">
+    <div className="rounded-lg bg-card/80 px-4 py-2 text-card-foreground shadow-sm text-right">
       {time ? (
         <>
           <div className="text-xs font-medium text-muted-foreground">{time.toLocaleDateString(undefined, dateOptions)}</div>
