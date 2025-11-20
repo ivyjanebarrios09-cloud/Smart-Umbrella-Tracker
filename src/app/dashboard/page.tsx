@@ -7,10 +7,12 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmbeddedMap } from '@/components/dashboard/embedded-map';
 import { WindCard } from '@/components/dashboard/wind-card';
+import { RealTimeClock } from '@/components/dashboard/real-time-clock';
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-6">
+      <RealTimeClock />
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
