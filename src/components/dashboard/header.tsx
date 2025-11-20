@@ -68,7 +68,7 @@ export function DashboardHeader() {
           href="/dashboard"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Image src="/image/logoo.png" alt="Smart Umbrella Logo" width={40} height={40} className="h-10 w-10 transition-transform group-hover:rotate-12" />
+          <Image src="/image/logo.png" alt="Smart Umbrella Logo" width={40} height={40} className="h-10 w-10 transition-transform group-hover:rotate-12" />
           <span className="font-bold whitespace-nowrap">Smart Umbrella</span>
         </Link>
       </nav>
