@@ -23,7 +23,7 @@ export function EmbeddedMap() {
       <CardHeader className="flex flex-row items-start gap-4">
         <MapPin className="h-6 w-6 text-muted-foreground" />
         <div>
-          <CardTitle className="text-base font-semibold">Last Known Location</CardTitle>
+          <CardTitle className="text-2xl font-bold animated-gradient-text">Last Known Location</CardTitle>
           <CardDescription className="text-sm text-muted-foreground">
             The umbrella's last reported coordinates.
           </CardDescription>

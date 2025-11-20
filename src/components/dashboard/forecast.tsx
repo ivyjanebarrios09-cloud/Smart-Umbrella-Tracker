@@ -25,7 +25,7 @@ export function Forecast() {
       <CardHeader className="flex flex-row items-start gap-4">
         <CalendarDays className="h-6 w-6 text-muted-foreground" />
         <div>
-          <CardTitle className="text-base font-semibold">7-Day Forecast</CardTitle>
+          <CardTitle className="text-2xl font-bold animated-gradient-text">7-Day Forecast</CardTitle>
           <CardDescription className="text-sm text-muted-foreground">
             Upcoming weather conditions.
           </CardDescription>

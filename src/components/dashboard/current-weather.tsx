@@ -24,7 +24,7 @@ export function CurrentWeatherCard() {
       <CardHeader className="flex flex-row items-start gap-4">
         <Thermometer className="h-6 w-6 text-muted-foreground" />
         <div>
-          <CardTitle className="text-base font-semibold">Temperature</CardTitle>
+          <CardTitle className="text-2xl font-bold animated-gradient-text">Temperature</CardTitle>
           <CardDescription className="text-sm text-muted-foreground">
             Current outdoor temperature.
           </CardDescription>

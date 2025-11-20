@@ -23,7 +23,7 @@ export function WindCard() {
       <CardHeader className="flex flex-row items-start gap-4">
         <Wind className="h-6 w-6 text-muted-foreground" />
         <div>
-            <CardTitle className="text-base font-semibold">Wind</CardTitle>
+            <CardTitle className="text-2xl font-bold animated-gradient-text">Wind</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
                 Current wind speed.
             </CardDescription>
