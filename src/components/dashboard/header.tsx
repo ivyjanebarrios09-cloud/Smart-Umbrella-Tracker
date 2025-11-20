@@ -62,12 +62,12 @@ export function DashboardHeader() {
   }
 
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 z-50">
-      <div className="flex-1">
-        {/* Empty div to balance the flex container */}
+    <header className="sticky top-0 flex h-16 items-center justify-center md:justify-between border-b bg-background px-4 md:px-6 z-50">
+      <div className="hidden md:flex flex-1">
+        {/* Empty div to balance the flex container on desktop */}
       </div>
 
-      <nav className="flex items-center justify-center flex-1">
+      <nav className="flex items-center justify-center">
         <Link
           href="/dashboard"
           className="flex items-center gap-2 text-lg font-semibold"
@@ -77,7 +77,7 @@ export function DashboardHeader() {
         </Link>
       </nav>
 
-      <div className="flex flex-1 items-center justify-end gap-4">
+      <div className="absolute md:relative right-4 md:right-auto flex flex-1 items-center justify-end gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
