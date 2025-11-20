@@ -99,7 +99,7 @@ export function AlertSection() {
   return (
     <Card className="flex-1 flex flex-col">
        <CardHeader className="flex flex-row items-start gap-4">
-        <BellRing className="h-6 w-6 text-muted-foreground" />
+        <BellRing className="h-8 w-8 text-primary" />
         <div>
             <CardTitle className="text-2xl font-bold animated-gradient-text">Alert System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
