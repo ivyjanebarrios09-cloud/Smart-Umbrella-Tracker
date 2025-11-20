@@ -69,7 +69,7 @@ export function DashboardHeader() {
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
           <Image src="/image/logo.png" alt="GaleLight Logo" width={80} height={80} className="h-20 w-20 transition-transform group-hover:rotate-12" />
-          <span className="font-bold whitespace-nowrap">GaleLight</span>
+          <span className="font-bold whitespace-nowrap text-2xl animated-gradient-text">GaleLight</span>
         </Link>
       </nav>
       <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">

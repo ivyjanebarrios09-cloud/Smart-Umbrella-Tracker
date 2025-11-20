@@ -70,3 +70,25 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .animated-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      -225deg,
+      #000080 0%,
+      #ffd700 29%,
+      #000080 67%,
+      #ffd700 100%
+    );
+    background-size: auto auto;
+    background-size: 200% auto;
+    animation: textclip 2s linear infinite;
+  }
+
+  @keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+}
