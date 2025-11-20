@@ -19,8 +19,8 @@ export function RealTimeClock() {
   }, []);
 
   return (
-    <div className="absolute top-0 right-0 z-20 rounded-md bg-background/80 px-3 py-1.5 text-sm font-semibold text-foreground backdrop-blur-sm">
-      {time ? time.toLocaleTimeString() : 'Loading...'}
+    <div className="absolute top-4 right-4 z-10 rounded-lg bg-card/80 px-4 py-2 text-base font-semibold text-card-foreground shadow-sm backdrop-blur-sm">
+      {time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Loading...'}
     </div>
   );
 }
