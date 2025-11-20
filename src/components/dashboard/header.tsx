@@ -76,7 +76,7 @@ export function DashboardHeader() {
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
           <Image src="/image/logo.png" alt="GaleLight Logo" width={60} height={60} className="h-14 w-14 transition-transform group-hover:rotate-12" />
-          <span className="font-bold whitespace-nowrap text-xl">GaleLight</span>
+          <span className="font-bold whitespace-nowrap text-xl animated-gradient-text">GaleLight</span>
         </Link>
       </nav>
 
@@ -101,7 +101,7 @@ export function DashboardHeader() {
                 className="flex items-center gap-2 text-lg font-semibold"
               >
                 <Image src="/image/logo.png" alt="GaleLight Logo" width={60} height={60} className="h-14 w-14 transition-transform group-hover:rotate-12" />
-                <span className="font-bold whitespace-nowrap text-xl">GaleLight</span>
+                <span className="font-bold whitespace-nowrap text-xl animated-gradient-text">GaleLight</span>
               </Link>
             </nav>
           </SheetContent>
