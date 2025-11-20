@@ -11,6 +11,12 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 export const metadata: Metadata = {
   title: 'GaleLight',
   description: 'Never lose your umbrella again.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'GaleLight',
+  },
 };
 
 export default function RootLayout({
@@ -22,6 +28,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
        <link rel="icon" href="/image/faviconn.ico.png" />
+       <meta name="theme-color" content="#2078f0" />
       </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
         <ThemeProvider
