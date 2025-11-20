@@ -62,22 +62,18 @@ export function DashboardHeader() {
   }
 
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-center md:justify-between border-b bg-background px-4 md:px-6 z-50">
-      <div className="hidden md:flex flex-1">
-        {/* Empty div to balance the flex container on desktop */}
-      </div>
-
-      <nav className="flex items-center justify-center">
+    <header className="sticky top-0 flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 z-50">
+      <nav className="flex items-center gap-2 text-lg font-semibold">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 text-lg font-semibold"
+          className="flex items-center gap-2"
         >
           <Image src="/image/logo.png" alt="GaleLight Logo" width={60} height={60} className="h-14 w-14 transition-transform group-hover:rotate-12" />
           <span className="font-bold whitespace-nowrap text-xl animated-gradient-text">GaleLight</span>
         </Link>
       </nav>
 
-      <div className="absolute md:relative right-4 md:right-auto flex flex-1 items-center justify-end gap-4">
+      <div className="flex items-center justify-end gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
