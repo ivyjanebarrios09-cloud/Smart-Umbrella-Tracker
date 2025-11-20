@@ -62,13 +62,13 @@ export function DashboardHeader() {
   }
 
   return (
-    <header className="sticky top-0 flex h-20 items-center gap-4 border-b bg-background px-4 md:px-6 z-50">
+    <header className="sticky top-0 flex h-24 items-center gap-4 border-b bg-background px-4 md:px-6 z-50">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href="/dashboard"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Image src="/image/logo.png" alt="Smart Umbrella Logo" width={64} height={64} className="h-16 w-16 transition-transform group-hover:rotate-12" />
+          <Image src="/image/logo.png" alt="Smart Umbrella Logo" width={80} height={80} className="h-20 w-20 transition-transform group-hover:rotate-12" />
           <span className="font-bold whitespace-nowrap">Smart Umbrella</span>
         </Link>
       </nav>
