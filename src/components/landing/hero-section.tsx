@@ -19,6 +19,13 @@ export function HeroSection() {
       )}
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-4">
+        <Image
+          src="/image/logo.png"
+          alt="GaleLight Logo"
+          width={100}
+          height={100}
+          className="mb-4"
+        />
         <h1 className="text-4xl font-bold md:text-6xl animated-gradient-text">
           GaleLight
         </h1>
