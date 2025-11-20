@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-       <link rel="icon" href="/image/favicon.ico.png" />
+       <link rel="icon" href="/image/faviconn.ico.png" />
       </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
         <ThemeProvider
